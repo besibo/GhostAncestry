@@ -77,6 +77,9 @@ mutation_file_name <- "2_All scaffolds/_outfiles/All_Scaffolds_mut.txt"
 # ---------------------------------------
 
 
+# ------- Use multiple processors -------
+plan(multiprocess)
+# ---------------------------------------
 
 
 # ----------------------------------------------------------------------------------
@@ -100,8 +103,8 @@ pos_list <- res %>%
   select(chr, pos) %>% 
   mutate(window_inf = pos - (pos %% window_width)) %>% 
   nest(data = c(pos)) %>% 
-  mutate(n = map_int(data, ~nrow(.)),
-         list = map_chr(data, ~str_flatten(pull(.), " "))) %>% 
+  mutate(n = future_map_int(data, ~nrow(.)),
+         list = future_map_chr(data, ~str_flatten(pull(.), " "))) %>% 
   select(-data)
 
 # 3. Since pos_list doesn't contain all possible windows (but only those for which
@@ -135,7 +138,6 @@ bed_lb <- bed %>%
 # to separate into multiple rows the uncallable regions spanning
 # multiple windows. 
 # Warning: this takes a few minutes on my computer (3-6).
-plan(multiprocess)
 bed_windows <- bed_lb %>% 
   mutate(new = future_pmap(., add_lines)) %>% 
   select(new) %>% 
