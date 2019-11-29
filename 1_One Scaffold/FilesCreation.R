@@ -120,11 +120,11 @@ bed_one_scaf <- bed %>%
 
 # 2. Apply the add_lines() function to each row of bed_one_scaf in order
 # to separate into multiple rows the uncallable regions spanning
-# multiple windows. This takes roughly 20 seconds on my computer
+# multiple windows. This takes a few seconds on my computer
 bed_windows <- bed_one_scaf %>% 
   mutate(new = pmap(., add_lines)) %>% 
   select(new) %>% 
-  unnest(new)
+  unnest_legacy(new)
 
 # 3. compute the fraction of callable bases for each window in bed_windows:
 # - first, tag each line of the table with the lower bound of the appropriate window 
@@ -195,5 +195,3 @@ mu_table <- all_windows_lb %>%
 mu_table %>% 
   mutate(window_inf = format(window_inf, scientific = FALSE)) %>% 
   write.table(mutation_file_name, quote = FALSE, row.names = FALSE, col.names = FALSE)
-
-
