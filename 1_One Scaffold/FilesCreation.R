@@ -17,14 +17,14 @@ source("Custom_functions.R")
 
 # ----- Import necessary data files -----
 ## haplo file
-haplo <- read_table2("Files_ghost_ancestry/MRVK01001299.1/NWAc_ghost_MRVK01001299.1.haplo")
+haplo <- read_table2("1_One Scaffold/_infiles/NWAc_ghost_MRVK01001299.1.haplo")
 
 ## .bed file
-bed <- read_table2("Files_ghost_ancestry/mask_sort_3_merged.bed", col_names = FALSE)
+bed <- read_table2("2_All Scaffolds/_infiles/mask_sort_3_merged.bed", col_names = FALSE)
 colnames(bed) <- c("chr", "start", "end")
 
 ## list of autosomes of length > 1Mbp
-autosomes <- read_table2("Files_ghost_ancestry/autosomes_sup1Mbp_length.txt", col_names = FALSE)
+autosomes <- read_table2("2_All Scaffolds/_infiles/autosomes_sup1Mbp_length.txt", col_names = FALSE)
 colnames(autosomes) <- c("chr", "size")
 # ---------------------------------------
 
@@ -60,9 +60,9 @@ all_windows_lb <- tibble(chr = scaffold_name,
 
 
 # ---------- Output file names ----------
-obs_file_name      <- paste0(scaffold_name, "_obs.txt")
-weight_file_name   <- paste0(scaffold_name, "_weight.txt")
-mutation_file_name <- paste0(scaffold_name, "_mut.txt")
+obs_file_name      <- paste0("1_One Scaffold/_outfiles/", scaffold_name, "_obs.txt")
+weight_file_name   <- paste0("1_One Scaffold/_outfiles/", scaffold_name, "_weight.txt")
+mutation_file_name <- paste0("1_One Scaffold/_outfiles/", scaffold_name, "_mut.txt")
 # ---------------------------------------
 
 
